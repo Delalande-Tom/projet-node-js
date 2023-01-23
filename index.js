@@ -20,6 +20,13 @@ app.get('/recettes', async function (req, res) {
 
 })
 
+app.get('/recette/:id', async function (req, res) {
+    console.log('test')
+    var recette = await restDB.get('https://restdbtest-6339.restdb.io/rest/recettes/'+req.params.id)
+    //TODO Gestion pas de data
+    res.send(recette.data)
+})
+
 app.listen(3000, function() {
     console.log('Example app listening on port 3000!')
 })
