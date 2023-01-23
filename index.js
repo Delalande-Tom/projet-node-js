@@ -33,7 +33,7 @@ app.get('/recette/:id', async function (req, res) {
 
 })
 app.get('*',async function (req, res) {
-    res.send(404)
+    res.sendStatus(404)
 })
 
 app.listen(3000, function() {
