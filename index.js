@@ -19,6 +19,9 @@ app.get('/recettes', async function (req, res) {
     console.log(recettes.data)
 
 })
+app.post('recettes/create', async function (req, res) {
+    //TODO
+});
 
 app.get('/recette/:id', async function (req, res) {
     try{
