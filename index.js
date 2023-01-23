@@ -32,6 +32,9 @@ app.get('/recette/:id', async function (req, res) {
     }
 
 })
+app.get('*',async function (req, res) {
+    res.send(404)
+})
 
 app.listen(3000, function() {
     console.log('Example app listening on port 3000!')
