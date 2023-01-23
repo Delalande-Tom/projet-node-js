@@ -21,12 +21,23 @@ app.get('/recettes', async function (req, res) {
 })
 
 app.get('/recette/:id', async function (req, res) {
-    console.log('test')
-    var recette = await restDB.get('https://restdbtest-6339.restdb.io/rest/recettes/'+req.params.id)
-    //TODO Gestion pas de data
-    res.send(recette.data)
+    try{
+        var recette = await restDB.get('https://restdbtest-6339.restdb.io/rest/recettes/'+req.params.id)
+        res.send(recette.data)
+        return;
+    }
+    catch (error){
+        errorCatcheur(error,res)
+        return;
+    }
+
 })
 
 app.listen(3000, function() {
     console.log('Example app listening on port 3000!')
 })
+
+function errorCatcheur(error, res){
+    console.log(error)
+    res.send(error.response.statusText)
+}
