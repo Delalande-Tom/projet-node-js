@@ -20,7 +20,27 @@ app.get('/recettes', async function (req, res) {
 
 })
 app.post('recettes/create', async function (req, res) {
-    //TODO
+    if(req.body.id == undefined){
+        try{
+            var recette = await restDB.post('https://restdbtest-6339.restdb.io/rest/recettes', req.body)
+            res.send(recette.data)
+            return;
+        }
+        catch (error){
+            errorCatcheur(error,res)
+            return;
+        }
+    }else {
+        try{
+            var recette = await restDB.put('https://restdbtest-6339.restdb.io/rest/recettes/'+req.body.id, req.body)
+            res.send(recette.data)
+            return;
+        }
+        catch (error){
+            errorCatcheur(error,res)
+            return;
+        }
+    }
 });
 
 app.get('/recette/:id', async function (req, res) {
