@@ -18,6 +18,20 @@ app.get('/recettes', async function (req, res) {
 
 })
 
+
+
+app.post('/recettes/create',urlEncodedParser, async function (req, res) {
+    
+    try{
+        var recette = await restDB.put('https://restdbtest-6339.restdb.io/rest/recettes/' + req.body.id, {name: req.body.name})
+        console.log(recette)
+        res.send(recette.statusText)
+    }catch(error){
+        var recette = await restDB.post('https://restdbtest-6339.restdb.io/rest/recettes', {name: req.body.name})
+        res.send(recette.statusText)
+    }
+});
+
 app.post('/users',urlEncodedParser, async function (req, res) {
     console.log(req.body)
         var recette = await restDB.post('https://restdbtest-6339.restdb.io/rest/utilisateurs/',{name:req.body.name,password:req.body.password})
