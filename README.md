@@ -26,15 +26,16 @@ Pour la partie backend :
 
 - [x] Une route GET pour le listing des produits
 
-- [ ] Une même route POST pour l’ajout ET la modification d’un élément
+- [x] Une même route POST pour l’ajout ET la modification d’un élément
 
-- [ ] Une route DELETE pour la suppression d’un élément
+- [x] Une route DELETE pour la suppression d’un élément
 </div>
 <h3>
 Spécifications
 </h3>
 <span style="color:grey;font-weight : 500;font-size : 10 px">
-Les routes de l’administration (donc celles pour ajouter/modifier et supprimer unx élément) doivent être seulement accessibles en étant connecté.
+
+- [ ] Les routes de l’administration (donc celles pour ajouter/modifier et supprimer unx élément) doivent être seulement accessibles en étant connecté.
 
 Le backend sera fait avec un express, une authentification passport JWT et la communication entre le front et backend se fera avec du JSON.
 Les données seront stockées dans un DB via l’outil https://restdb.io/ avec l’utilisation d’async/await ET axios.
