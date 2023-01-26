@@ -18,7 +18,7 @@ Pour la partie backend :
 
 <div>
 
-- [ ] Une route POST pour l’inscription
+- [x] Une route POST pour l’inscription
 
 - [ ] Une route POST pour la connection
 
