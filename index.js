@@ -12,13 +12,12 @@ const restDB = axios.create({
 })
 
 app.get('/recettes', async function (req, res) {
-
-
     var recettes = await restDB.get('https://restdbtest-6339.restdb.io/rest/recettes')
     res.send(recettes.data)
-    console.log(recettes.data)
 
 })
+
+
 app.post('recettes/create', async function (req, res) {
     if(req.body.id == undefined){
         try{
@@ -40,6 +39,18 @@ app.post('recettes/create', async function (req, res) {
             errorCatcheur(error,res)
             return;
         }
+    }
+});
+
+app.delete('/recettes/delete/:id', async function (req, res) {
+    try{
+        var recette = await restDB.delete('https://restdbtest-6339.restdb.io/rest/recettes/'+req.params.id)
+        res.send(recette.statusText)
+        return;
+    }
+    catch (error){
+        errorCatcheur(error,res)
+        return;
     }
 });
 
