@@ -28,6 +28,15 @@ app.get('/recettes', async function (req, res) {
 
 })
 
+app.post('/user/create',urlEncodedParser, async function (req, res) {
+    console.log(req.body)
+    try{
+        var recette = await restDB.post('https://restdbtest-6339.restdb.io/rest/utilisateurs', {name: req.body.name, password: req.body.password})
+        res.send(recette.statusText)
+    }catch(error){
+        res.send(error.response.statusText)
+    }
+})
 
 
 app.post('/recettes/create',urlEncodedParser, async function (req, res) {
