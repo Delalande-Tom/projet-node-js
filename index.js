@@ -42,9 +42,9 @@ app.post('/recettes/create',urlEncodedParser, async function (req, res) {
     }
 });
 
-app.get('/recettes/connexion/:name/:password', async function (req, res) {
+app.post('/recettes/connexion',urlEncodedParser, async function (req, res) {
     try{
-        var user = await restDB.get(`https://restdbtest-6339.restdb.io/rest/utilisateurs?q={"name":"${req.params.name}","password":"${req.params.password}"}`)
+        var user = await restDB.get(`https://restdbtest-6339.restdb.io/rest/utilisateurs?q={"name":"${req.body.name}","password":"${req.body.password}"}`)
         res.send(user.data)
         return;
     }
