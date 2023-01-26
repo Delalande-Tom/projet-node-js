@@ -14,7 +14,7 @@ const restDB = axios.create({
     json: true
 })
 const urlEncodedParser = express.urlencoded({ extended: false })
-const secret = 'thisismysecret'
+const secret = 'secretDeFou'
 const ExtractJwt = passportJWT.ExtractJwt
 const JwtStrategy = passportJWT.Strategy
 const jwtOptions = {
@@ -53,8 +53,15 @@ app.post('/recettes/create',urlEncodedParser, async function (req, res) {
 
 app.post('/recettes/connexion',urlEncodedParser, async function (req, res) {
     try{
-        var user = await restDB.get(`https://restdbtest-6339.restdb.io/rest/utilisateurs?q={"name":"${req.body.name}","password":"${req.body.password}"}`)
-        res.send(user.data)
+        const user = await restDB.get(`https://restdbtest-6339.restdb.io/rest/utilisateurs?q={"name":"${req.body.name}","password":"${req.body.password}"}`)
+        if(!user.data.length){
+            res.sendStatus(401)
+            return;
+        }
+
+        const userJwt = jwt.sign({ name: user.data.name }, secret)
+
+        res.json({ jwt: userJwt })
         return;
     }
     catch (error){
@@ -119,6 +126,8 @@ app.get('*',async function (req, res) {
 app.post('*',async function (req, res) {
     res.sendStatus(404)
 })
+
+app.use(passport.initialize())
 
 app.listen(3000, function() {
     console.log('Example app listening on port 3000!')
