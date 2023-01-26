@@ -20,7 +20,7 @@ Pour la partie backend :
 
 - [x] Une route POST pour l’inscription
 
-- [ ] Une route POST pour la connection
+- [x] Une route POST pour la connection
 
 - [x] Une route GET pour la récupération d’un élément
 
