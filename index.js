@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 const axios = require('axios')
+const passport = require('passport')
+const jwt = require('jsonwebtoken')
+const passportJWT = require('passport-jwt')
 const restDB = axios.create({
     headers:
         {
@@ -11,6 +14,13 @@ const restDB = axios.create({
     json: true
 })
 const urlEncodedParser = express.urlencoded({ extended: false })
+const secret = 'thisismysecret'
+const ExtractJwt = passportJWT.ExtractJwt
+const JwtStrategy = passportJWT.Strategy
+const jwtOptions = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: secret
+}
 
 app.get('/recettes', async function (req, res) {
     var recettes = await restDB.get('https://restdbtest-6339.restdb.io/rest/recettes')
@@ -32,14 +42,17 @@ app.post('/recettes/create',urlEncodedParser, async function (req, res) {
     }
 });
 
-app.post('/users',urlEncodedParser, async function (req, res) {
-    console.log(req.body)
-        var recette = await restDB.post('https://restdbtest-6339.restdb.io/rest/utilisateurs/',{name:req.body.name,password:req.body.password})
-        res.send(recette.data)
+app.get('/recettes/connexion/:name/:password', async function (req, res) {
+    try{
+        var user = await restDB.get(`https://restdbtest-6339.restdb.io/rest/utilisateurs?q='+'{"name":"${req.params.name}","password":"+${req.params.password}"}`)
+        res.send(user.data)
         return;
+    }
+    catch (error){
+        errorCatcheur(error,res)
+        return;
+    }
 })
-
-
 
 
 app.post('/recettes/create', async function (req, res) {
@@ -92,6 +105,9 @@ app.get('/recette/:id', async function (req, res) {
 
 })
 app.get('*',async function (req, res) {
+    res.sendStatus(404)
+})
+app.post('*',async function (req, res) {
     res.sendStatus(404)
 })
 
