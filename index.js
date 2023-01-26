@@ -10,6 +10,7 @@ const restDB = axios.create({
         },
     json: true
 })
+const urlEncodedParser = express.urlencoded({ extended: false })
 
 app.get('/recettes', async function (req, res) {
     var recettes = await restDB.get('https://restdbtest-6339.restdb.io/rest/recettes')
@@ -17,9 +18,19 @@ app.get('/recettes', async function (req, res) {
 
 })
 
+app.post('/users',urlEncodedParser, async function (req, res) {
+    console.log(req.body)
+        var recette = await restDB.post('https://restdbtest-6339.restdb.io/rest/utilisateurs/',{name:req.body.name,password:req.body.password})
+        res.send(recette.data)
+        return;
+})
 
-app.post('recettes/create', async function (req, res) {
-    if(req.body.id == undefined){
+
+
+
+app.post('/recettes/create', async function (req, res) {
+
+    if(req.body.id){
         try{
             var recette = await restDB.post('https://restdbtest-6339.restdb.io/rest/recettes', req.body)
             res.send(recette.data)
@@ -31,7 +42,7 @@ app.post('recettes/create', async function (req, res) {
         }
     }else {
         try{
-            var recette = await restDB.put('https://restdbtest-6339.restdb.io/rest/recettes/'+req.body.id, req.body)
+            var recette = await restDB.put('https://restdbtest-6339.restdb.io/rest/recettes/'+req.body.id, req.body.data)
             res.send(recette.data)
             return;
         }
