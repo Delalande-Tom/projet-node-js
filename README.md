@@ -18,19 +18,12 @@ Pour la partie backend :
 
 <div>
 
-- [x] Une route POST pour l’inscription
-
-- [x] Une route POST pour la connection
-
-- [x] Une route GET pour la récupération d’un élément
-
-- [x] Une route GET pour le listing des produits
-
-- [x] Une même route POST pour l’ajout ET la modification d’un élément
-
-- [x] Une route DELETE pour la suppression d’un élément
-
-- [x] Déployer sur vercel
+- [x] Une route POST pour l’inscription  -> /user/create
+- [x] Une route POST pour la connection -> /recettes/connexion
+- [x] Une route GET pour la récupération d’un élément ->/recette/:id
+- [x] Une route GET pour le listing des produits -> /recettes
+- [x] Une même route POST pour l’ajout ET la modification d’un élément -> /recettes/create
+- [x] Une route DELETE pour la suppression d’un élément -> /recettes/delete/:id
 </div>
 <h3>
 Spécifications
