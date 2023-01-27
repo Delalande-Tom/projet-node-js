@@ -27,14 +27,24 @@ passport.use(new JwtStrategy(jwtOptions, users.verify))
 app.use(passport.initialize())
 
 /**
+ * Route to crate a user
+ */
+app.post('/user/create',urlEncodedParser,users.create)
+/**
+ * Route to connect, generate a jwt token
+ */
+app.post('/recettes/connexion',urlEncodedParser, users.connexion)
+
+
+/**
  * Route to get all recettes
  */
 app.get('/recettes', recettes.getAll)
 
 /**
- * Route to crate a user
+ * Route to get a specified recette from an id
  */
-app.post('/user/create',urlEncodedParser,users.create)
+app.get('/recette/:id', recettes.get)
 
 /**
  * Route to modified or create a new recette
@@ -43,19 +53,10 @@ app.post('/user/create',urlEncodedParser,users.create)
 app.post('/recettes/create',urlEncodedParser,passport.authenticate('jwt', { session: false }),recettes.createOrModify);
 
 /**
- * Route to connect, generate a jwt token
- */
-app.post('/recettes/connexion',urlEncodedParser, users.connexion)
-
-/**
  * Route to delete a specified recette from an id
  */
 app.delete('/recettes/delete/:id', passport.authenticate('jwt', { session: false }), recettes.delete);
 
-/**
- * Route to get a specified recette from an id
- */
-app.get('/recette/:id', recettes.get)
 /**
  * Route taken if the route is not a defined route
  */
