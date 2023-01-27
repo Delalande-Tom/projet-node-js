@@ -56,6 +56,12 @@ app.post('/recettes/create',urlEncodedParser,passport.authenticate('jwt', { sess
  * Route to delete a specified recette from an id
  */
 app.delete('/recettes/delete/:id', passport.authenticate('jwt', { session: false }), recettes.delete);
+/**
+ * Route to welcome
+ */
+app.get('/',async function (req, res) {
+    res.send('Welcome on the Api, check the doc !\n [URL]')
+})
 
 /**
  * Route taken if the route is not a defined route
