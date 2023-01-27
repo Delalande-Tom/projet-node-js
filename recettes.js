@@ -7,6 +7,7 @@ const restDB = restDBConfig.restDB
 async function getAll (req, res) {
     var recettes = await restDB.get('https://restdbtest-6339.restdb.io/rest/recettes')
     res.send(recettes.data)
+    return;
 }
 
 /**
