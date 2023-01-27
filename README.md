@@ -29,6 +29,8 @@ Pour la partie backend :
 - [x] Une même route POST pour l’ajout ET la modification d’un élément
 
 - [x] Une route DELETE pour la suppression d’un élément
+
+- [x] Déployer sur vercel
 </div>
 <h3>
 Spécifications
