@@ -1,9 +1,12 @@
+/** Requires **/
 const express = require('express')
 const app = express()
 const axios = require('axios')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const passportJWT = require('passport-jwt')
+
+/** Config of axios requests **/
 const restDB = axios.create({
     headers:
         {
@@ -13,7 +16,9 @@ const restDB = axios.create({
         },
     json: true
 })
+/** UrlParser for post method **/
 const urlEncodedParser = express.urlencoded({ extended: false })
+/** JWT **/
 const secret = 'secretDeFou'
 const ExtractJwt = passportJWT.ExtractJwt
 const JwtStrategy = passportJWT.Strategy
@@ -21,11 +26,13 @@ const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: secret
 }
+/**
+ * Generate the token to compare with an existing token
+ */
 passport.use(
     new JwtStrategy(jwtOptions, async function(payload, next) {
         const users = await restDB.get(`https://restdbtest-6339.restdb.io/rest/utilisateurs?q={"name":"${payload.name}"}`)
         for (let i = 0; i<users.data.length;i++){
-            console.log(users.data[i])
             if (users.data[i].name === payload.name) {
                 next(null, users.data[i])
             } else {
@@ -37,14 +44,23 @@ passport.use(
     })
 )
 
+/**
+ * Initialise the passport at the start of the server
+ */
 app.use(passport.initialize())
 
+/**
+ * Route to get all recettes
+ */
 app.get('/recettes', async function (req, res) {
     var recettes = await restDB.get('https://restdbtest-6339.restdb.io/rest/recettes')
     res.send(recettes.data)
 
 })
 
+/**
+ * Route to crate a user
+ */
 app.post('/user/create',urlEncodedParser, async function (req, res) {
     console.log(req.body)
     try{
@@ -55,8 +71,11 @@ app.post('/user/create',urlEncodedParser, async function (req, res) {
     }
 })
 
-
-app.post('/recettes/create',urlEncodedParser, passport.authenticate('jwt', { session: false }), async function (req, res) {
+/**
+ * Route to modified or create a new recette
+ * To modified we have to use an existing id, if the id doesn't exist we create it
+ */
+app.post('/recettes/create',urlEncodedParser,passport.authenticate('jwt', { session: false }), async function (req, res) {
     
     try{
         var recette = await restDB.put('https://restdbtest-6339.restdb.io/rest/recettes/' + req.body.id, {name: req.body.name})
@@ -68,6 +87,9 @@ app.post('/recettes/create',urlEncodedParser, passport.authenticate('jwt', { ses
     }
 });
 
+/**
+ * Route to generate a jwt token
+ */
 app.post('/recettes/connexion',urlEncodedParser, async function (req, res) {
     try{
         const user = await restDB.get(`https://restdbtest-6339.restdb.io/rest/utilisateurs?q={"name":"${req.body.name}"}`)
@@ -75,9 +97,6 @@ app.post('/recettes/connexion',urlEncodedParser, async function (req, res) {
             res.sendStatus(401)
             return;
         }
-
-
-
         const userJwt = jwt.sign({ name: user.data[0].name }, secret)
 
         res.json({ jwt: userJwt })
@@ -89,32 +108,9 @@ app.post('/recettes/connexion',urlEncodedParser, async function (req, res) {
     }
 })
 
-
-/*app.post('/recettes/create', async function (req, res) {
-
-    if(req.body.id){
-        try{
-            var recette = await restDB.post('https://restdbtest-6339.restdb.io/rest/recettes', req.body)
-            res.send(recette.data)
-            return;
-        }
-        catch (error){
-            errorCatcheur(error,res)
-            return;
-        }
-    }else {
-        try{
-            var recette = await restDB.put('https://restdbtest-6339.restdb.io/rest/recettes/'+req.body.id, req.body.data)
-            res.send(recette.data)
-            return;
-        }
-        catch (error){
-            errorCatcheur(error,res)
-            return;
-        }
-    }
-});*/
-
+/**
+ * Route to delete a specified recette from an id
+ */
 app.delete('/recettes/delete/:id', passport.authenticate('jwt', { session: false }), async function (req, res) {
     try{
         var recette = await restDB.delete('https://restdbtest-6339.restdb.io/rest/recettes/'+req.params.id)
@@ -127,6 +123,9 @@ app.delete('/recettes/delete/:id', passport.authenticate('jwt', { session: false
     }
 });
 
+/**
+ * Route to get a specified recette from an id
+ */
 app.get('/recette/:id', async function (req, res) {
     try{
         var recette = await restDB.get('https://restdbtest-6339.restdb.io/rest/recettes/'+req.params.id)
@@ -139,21 +138,26 @@ app.get('/recette/:id', async function (req, res) {
     }
 
 })
-app.get('*',async function (req, res) {
+/**
+ * Route taken if the route is not a defined route
+ */
+app.all('*',async function (req, res) {
     res.sendStatus(404)
 })
-app.post('*',async function (req, res) {
-    res.sendStatus(404)
-})
 
 
 
+/** Listener of the server on port 3000 **/
 app.listen(3000, function() {
     console.log('Example app listening on port 3000!')
 })
 
+/**
+ * Error catcheur for all errrors
+ * @param error catched error
+ * @param res resolution
+ */
 function errorCatcheur(error, res){
-    console.log(error)
     res.send(error.response.statusText)
 }
 
