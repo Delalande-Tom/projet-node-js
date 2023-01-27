@@ -13,13 +13,15 @@ async function getAll (req, res) {
  * Create or modify a recette
  */
 async function create (req, res) {
-
+    if(req.body.name==null || req.body.price == null){
+        res.sendStatus(400)
+    }
     try{
-        var recette = await restDB.put('https://restdbtest-6339.restdb.io/rest/recettes/' + req.body.id, {name: req.body.name})
+        var recette = await restDB.put('https://restdbtest-6339.restdb.io/rest/recettes/' + req.body.id, {name: req.body.name, price: req.body.price})
         console.log(recette)
         res.send(recette.statusText)
     }catch(error){
-        var recette = await restDB.post('https://restdbtest-6339.restdb.io/rest/recettes', {name: req.body.name})
+        var recette = await restDB.post('https://restdbtest-6339.restdb.io/rest/recettes', {name: req.body.name, price: req.body.price})
         res.send(recette.statusText)
     }
 }
