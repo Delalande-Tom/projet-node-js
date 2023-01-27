@@ -35,7 +35,7 @@ Spécifications
 </h3>
 <span style="color:grey;font-weight : 500;font-size : 10 px">
 
-- [ ] Les routes de l’administration (donc celles pour ajouter/modifier et supprimer unx élément) doivent être seulement accessibles en étant connecté.
+- [x] Les routes de l’administration (donc celles pour ajouter/modifier et supprimer unx élément) doivent être seulement accessibles en étant connecté.
 
 Le backend sera fait avec un express, une authentification passport JWT et la communication entre le front et backend se fera avec du JSON.
 Les données seront stockées dans un DB via l’outil https://restdb.io/ avec l’utilisation d’async/await ET axios.
