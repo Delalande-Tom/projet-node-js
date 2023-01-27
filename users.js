@@ -20,13 +20,13 @@ async function verify (payload, next) {
  * create a user
  */
 async function create (req,res){
-    console.log('test')
-    console.log(req.body)
     try{
         var recette = await restDB.post('https://restdbtest-6339.restdb.io/rest/utilisateurs', {name: req.body.name, password: req.body.password})
         res.send(recette.statusText)
+        return;
     }catch(error){
         res.send(error.response.statusText)
+        return;
     }
 }
 
