@@ -19,12 +19,12 @@ async function create (req, res) {
         return;
     }
     try{
-        var recette = await restDB.put('https://restdbtest-6339.restdb.io/rest/recettes/' + req.body.id, {name: req.body.name, price: req.body.price, category: req.body.category, difficulty: req.body.dificulty, description:  req.body.description, picture: req.body.picture })
+        var recette = await restDB.put('https://restdbtest-6339.restdb.io/rest/recettes/' + req.body.id, {name: req.body.name, price: req.body.price, category: req.body.category, difficulty: req.body.difficulty, description:  req.body.description, picture: req.body.picture })
         console.log(recette)
         res.send(recette.statusText)
         return;
     }catch(error){
-        var recette = await restDB.post('https://restdbtest-6339.restdb.io/rest/recettes', {name: req.body.name, price: req.body.price, category: req.body.category, difficulty: req.body.dificulty, description:  req.body.description, picture: req.body.picture})
+        var recette = await restDB.post('https://restdbtest-6339.restdb.io/rest/recettes', {name: req.body.name, price: req.body.price, category: req.body.category, difficulty: req.body.difficulty, description:  req.body.description, picture: req.body.picture})
         res.send(recette.statusText)
         return;
     }
