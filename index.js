@@ -9,12 +9,11 @@ const recettes = require('./recettes.js')
 /** UrlParser for post method **/
 const urlEncodedParser = express.urlencoded({ extended: false })
 /** JWT **/
-const secret = 'secretDeFou'
 const ExtractJwt = passportJWT.ExtractJwt
 const JwtStrategy = passportJWT.Strategy
 const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: secret
+    secretOrKey: users.secret
 }
 /**
  * Generate the token to compare with an existing token

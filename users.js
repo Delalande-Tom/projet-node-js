@@ -1,6 +1,8 @@
 const restDBConfig = require('./restDBConfig.js')
 const jwt = require("jsonwebtoken");
 const restDB = restDBConfig.restDB
+const secret = 'secretDeFou'
+
 
 /**
  * verify user existence
@@ -55,5 +57,6 @@ async function connexion (req, res) {
 module.exports = {
     create: create,
     connexion: connexion,
-    verify: verify
+    verify: verify,
+    secret: secret,
 }
