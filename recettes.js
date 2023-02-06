@@ -14,17 +14,17 @@ async function getAll (req, res) {
  * Create or modify a recette
  */
 async function create (req, res) {
-    if(req.body.name==null || req.body.price == null || req.body.category == null ||req.body.dificulty == null|| req.body.dificulty<1 || req.body.dificulty>5 || req.body.description == null || req.body.picture ==null){
+    if(req.body.name==null || req.body.price == null || req.body.category == null ||req.body.difficulty == null|| req.body.difficulty<1 || req.body.difficulty>5 || req.body.description == null || req.body.picture ==null){
         res.sendStatus(400)
         return;
     }
     try{
-        var recette = await restDB.put('https://restdbtest-6339.restdb.io/rest/recettes/' + req.body.id, {name: req.body.name, price: req.body.price, category: req.body.category, dificulty: req.body.dificulty, description:  req.body.description, picture: req.body.picture })
+        var recette = await restDB.put('https://restdbtest-6339.restdb.io/rest/recettes/' + req.body.id, {name: req.body.name, price: req.body.price, category: req.body.category, difficulty: req.body.dificulty, description:  req.body.description, picture: req.body.picture })
         console.log(recette)
         res.send(recette.statusText)
         return;
     }catch(error){
-        var recette = await restDB.post('https://restdbtest-6339.restdb.io/rest/recettes', {name: req.body.name, price: req.body.price, category: req.body.category, dificulty: req.body.dificulty, description:  req.body.description, picture: req.body.picture})
+        var recette = await restDB.post('https://restdbtest-6339.restdb.io/rest/recettes', {name: req.body.name, price: req.body.price, category: req.body.category, difficulty: req.body.dificulty, description:  req.body.description, picture: req.body.picture})
         res.send(recette.statusText)
         return;
     }
