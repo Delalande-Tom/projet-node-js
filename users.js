@@ -37,8 +37,8 @@ async function create (req,res){
  */
 async function connexion (req, res) {
     try{
-        const user = await restDB.get(`https://restdbtest-6339.restdb.io/rest/utilisateurs?q={"name":"${req.body.name}"}`)
-        if(!user.data.length ||req.body.password !== user.data[0].password){
+        const user = await restDB.get(`https://restdbtest-6339.restdb.io/rest/utilisateurs?q={"name":"${req.data.name}"}`)
+        if(!user.data.length ||req.data.password !== user.data[0].password){
             res.sendStatus(401)
             return;
         }
