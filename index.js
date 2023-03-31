@@ -24,7 +24,7 @@ passport.use(new JwtStrategy(jwtOptions, users.verify))
 /**
  * Initialise the passport at the start of the server
  */
-app.use(passport.initialize())
+app.use(cors(),passport.initialize())
 
 /**
  * Route to crate a user
@@ -39,7 +39,7 @@ app.post('/recettes/connexion',urlEncodedParser, users.connexion)
 /**
  * Route to get all recettes
  */
-app.get('/recettes',cors(), recettes.getAll)
+app.get('/recettes', recettes.getAll)
 
 /**
  * Route to get a specified recette from an id
