@@ -1,6 +1,7 @@
 /** Requires **/
 const express = require('express')
 const app = express()
+const cors = require('cors')
 const passport = require('passport')
 const passportJWT = require('passport-jwt')
 const users = require('./users.js')
@@ -38,7 +39,7 @@ app.post('/recettes/connexion',urlEncodedParser, users.connexion)
 /**
  * Route to get all recettes
  */
-app.get('/recettes', recettes.getAll)
+app.get('/recettes',cors(), recettes.getAll)
 
 /**
  * Route to get a specified recette from an id
@@ -70,7 +71,7 @@ app.all('*',async function (req, res) {
 })
 
 /** Listener of the server on port 3000 **/
-app.listen(3000, function() {
+app.listen(3000, function(req,res) {
     console.log('Example app listening on port 3000!')
 })
 
