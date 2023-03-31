@@ -24,7 +24,11 @@ passport.use(new JwtStrategy(jwtOptions, users.verify))
 /**
  * Initialise the passport at the start of the server
  */
-app.use(cors(),passport.initialize())
+app.use(function (req, res, next) {
+    passport.initialize()
+    cors()
+    next()
+})
 
 /**
  * Route to crate a user
